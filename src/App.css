@@ -1,7 +1,4 @@
-body, html {
-  font-size: 0.9rem;
-  background: #f2f3f7
-}
+
 body, .form-control {
   font-size: 0.9rem
 }
@@ -15,9 +12,20 @@ html,
   font-size: 0.9rem;
   font-weight: 500;
   padding: 0.66rem;
+  width: auto;
   border-radius: 0.5rem;
   box-shadow: 0 .1rem .1rem rgba(0,0,0,.05)!important
 }
+.card-btn{
+  
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.66rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 .1rem .1rem rgba(0,0,0,.05)!important
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -38,7 +46,9 @@ html,
 .modal-content,
 .card {
   overflow: hidden;
-  border-radius: 0.756rem
+  border-radius: 0.756rem;
+  /* background-color: rgb(165, 255, 255); */
+  /* background: linear-gradient(45deg, rgba(232,232,232,1) 64%, rgba(246,241,248,1) 100%, rgba(172,0,255,1) 100%); */
 }
 
 hr {
@@ -85,4 +95,24 @@ hr {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+
+.card-invoice{
+  background: linear-gradient(90deg, rgb(0, 0, 0) , rgb(66, 66, 66));
+  overflow: hidden;
+  border-radius: 0.756rem
+}
+.card-invoice,text{
+  color: white;
+}
+
+.cont{
+  border: 2px solid red;
+  background-color: green;
+}
+
+.w-bold{
+  font-weight: bold;
+  margin-left: 7px;
 }

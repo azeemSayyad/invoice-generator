@@ -10,46 +10,41 @@ import InvoiceItem from "./InvoiceItem";
 import InvoiceModal from "./InvoiceModal";
 import InputGroup from "react-bootstrap/InputGroup";
 
-import { addInvoice, editInvoice } from "../state/index";
+import {  editInvoice } from "../state/index";
 import { connect } from "react-redux";
 
-class InvoiceForm extends React.Component {
+class UpdateInvoice extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
-      currency: "$",
-      currentDate: "",
-      invoiceNumber: this.generateInvoiceNumber(),
-      dateOfIssue: "",
-      billTo: "",
-      billToEmail: "azeem",
-      billToAddress: "",
-      billFrom: "zaariya",
-      billFromEmail: "",
-      billFromAddress: "",
-      notes: "",
-      total: "0.00",
-      subTotal: "0.00",
-      taxRate: "",
-      taxAmount: "0.00",
-      discountRate: "",
-      discountAmount: "0.00",
+      currency: this.props.invoice.currency,
+      currentDate: this.props.invoice.currentDate,
+      invoiceNumber: this.props.invoice.invoiceNumber,
+      dateOfIssue: this.props.invoice.dateOfIssue,
+      billTo: this.props.invoice.billTo,
+      billToEmail: this.props.invoice.billToEmail,
+      billToAddress: this.props.invoice.billToAddress,
+      billFrom: this.props.invoice.billFrom,
+      billFromEmail: this.props.invoice.billFromEmail,
+      billFromAddress: this.props.invoice.billFromAddress,
+      notes: this.props.invoice.notes,
+      total: this.props.invoice.total,
+      subTotal: this.props.invoice.subTotal,
+      taxRate: this.props.invoice.taxRate,
+      taxAmount: this.props.invoice.taxAmount,
+      discountRate: this.props.invoice.discountRate,
+      discountAmount: this.props.invoice.discountAmount,
+      items: []
     };
-    this.state.items = [];
+    // this.setState({items:this.props.invoice.items});
     this.editField = this.editField.bind(this);
   }
 
-  generateInvoiceNumber() {
-    const randomNumber = Math.floor(Math.random() * 100000);
-    
-    const random5DigitNumber = "IVN"+ String(randomNumber).padStart(5, '0');
-    console.log(random5DigitNumber)
-    return random5DigitNumber;
-  }
-
   componentDidMount(prevProps) {
-    this.handleCalculateTotal();
+      this.handleCalculateTotal();
+    const updatedItems = [...this.state.items, ...this.props.invoice.items];
+    this.setState({ items: updatedItems });
   }
 
   handleRowDel(items) {
@@ -95,14 +90,15 @@ class InvoiceForm extends React.Component {
             this.setState(
               {
                 discountAmount: parseFloat(
-                  parseFloat(subTotal) * (this.state.discountRate) / 100).toFixed(2),
+                  parseFloat(subTotal) * (this.state.discountRate / 100)
+                ).toFixed(2),
               },
               () => {
                 this.setState({
                   total:
                     subTotal -
                     this.state.discountAmount +
-                    parseFloat(this.state.taxAmount)
+                    parseFloat(this.state.taxAmount),
                 });
               }
             );
@@ -150,19 +146,18 @@ class InvoiceForm extends React.Component {
 
   closeModal = (event) => this.setState({ isOpen: false });
 
-  saveInvoice = () => {
-    console.log("save invoice from modal")
-    this.props.addInvoice(this.state);
+  updateInvoice = () => {
+    this.props.editInvoice({invoiceNumber:this.state.invoiceNumber,editInvoice:this.state});
   };
 
   render() {
-
+    console.log(this.props.invoice);
     return (
       <Container>
         <Form onSubmit={this.openModal}>
           <Row>
             <Col md={8} lg={9}>
-              <Card className="p-4 p-xl-5 my-3 my-xl-4 bg-light">
+              <Card className="p-4 p-xl-5 my-3 my-xl-4">
                 <div className="d-flex flex-row align-items-start justify-content-between mb-3">
                   <div class="d-flex flex-column">
                     <div className="d-flex flex-column">
@@ -181,7 +176,7 @@ class InvoiceForm extends React.Component {
                       </span>
                       <Form.Control
                         type="date"
-                        value={this.state.dateOfIssue}
+                        value={this.props.invoice.dateOfIssue}
                         name={"dateOfIssue"}
                         onChange={(event) => this.editField(event)}
                         style={{
@@ -191,13 +186,11 @@ class InvoiceForm extends React.Component {
                       />
                     </div>
                   </div>
-
                   <div className="d-flex flex-row align-items-center">
                     <span className="me-2">
                       <span className="fw-bold me-2">Invoice&nbsp;Number:&nbsp;&nbsp;&nbsp;</span>{this.state.invoiceNumber}
                     </span>
                   </div>
-
                 </div>
                 <hr className="my-4" />
                 <Row className="mb-5">
@@ -341,7 +334,7 @@ class InvoiceForm extends React.Component {
                   type="submit"
                   className="d-block w-100"
                 >
-                  Review and Save
+                  Review and Update
                 </Button>
                 <InvoiceModal
                   showModal={this.state.isOpen}
@@ -353,8 +346,8 @@ class InvoiceForm extends React.Component {
                   taxAmount={this.state.taxAmount}
                   discountAmount={this.state.discountAmount}
                   total={this.state.total}
-                  saveInvoice={this.saveInvoice}
-                  from="create"
+                  saveInvoice={this.updateInvoice}
+                  from="update"
                 />
                 <Form.Group className="mb-3">
                   <Form.Label className="fw-bold">Currency:</Form.Label>
@@ -423,9 +416,10 @@ class InvoiceForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  addInvoice,
-  editInvoice,
-};
+function mapStateToProps(state) {
+  return {
+    invoice: state.invoice,
+  };
+}
 
-export default connect(null, mapDispatchToProps)(InvoiceForm);
+export default connect(mapStateToProps,{editInvoice})(UpdateInvoice);
