@@ -59,4 +59,4 @@ npm start / npm run build
 
 ### Meta
 
-John Uberbacher – [johnuberbacher.com](https://johnuberbacher.com)
+Sayyad Azeem – (https://azeem786-portfolio.netlify.app/)
