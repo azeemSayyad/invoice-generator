@@ -42,9 +42,9 @@ class InvoiceForm extends React.Component {
 
   generateInvoiceNumber() {
     const randomNumber = Math.floor(Math.random() * 100000);
-    
-    const random5DigitNumber = "IVN"+ String(randomNumber).padStart(5, '0');
-    console.log(random5DigitNumber)
+
+    const random5DigitNumber = "IVN" + String(randomNumber).padStart(5, "0");
+    console.log(random5DigitNumber);
     return random5DigitNumber;
   }
 
@@ -95,14 +95,15 @@ class InvoiceForm extends React.Component {
             this.setState(
               {
                 discountAmount: parseFloat(
-                  parseFloat(subTotal) * (this.state.discountRate) / 100).toFixed(2),
+                  (parseFloat(subTotal) * this.state.discountRate) / 100
+                ).toFixed(2),
               },
               () => {
                 this.setState({
                   total:
                     subTotal -
                     this.state.discountAmount +
-                    parseFloat(this.state.taxAmount)
+                    parseFloat(this.state.taxAmount),
                 });
               }
             );
@@ -151,12 +152,11 @@ class InvoiceForm extends React.Component {
   closeModal = (event) => this.setState({ isOpen: false });
 
   saveInvoice = () => {
-    console.log("save invoice from modal")
+    console.log("save invoice from modal");
     this.props.addInvoice(this.state);
   };
 
   render() {
-
     return (
       <Container>
         <Form onSubmit={this.openModal}>
@@ -172,6 +172,14 @@ class InvoiceForm extends React.Component {
                         </span>
                         <span className="current-date">
                           {new Date().toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="d-flex sm-flex-row align-items-center">
+                        <span className="me-2">
+                          <span className="fw-bold me-2">
+                            Invoice&nbsp;Number:&nbsp;&nbsp;&nbsp;
+                          </span>
+                          {this.state.invoiceNumber}
                         </span>
                       </div>
                     </div>
@@ -191,13 +199,6 @@ class InvoiceForm extends React.Component {
                       />
                     </div>
                   </div>
-
-                  <div className="d-flex flex-row align-items-center">
-                    <span className="me-2">
-                      <span className="fw-bold me-2">Invoice&nbsp;Number:&nbsp;&nbsp;&nbsp;</span>{this.state.invoiceNumber}
-                    </span>
-                  </div>
-
                 </div>
                 <hr className="my-4" />
                 <Row className="mb-5">

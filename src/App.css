@@ -46,9 +46,9 @@ html,
 .modal-content,
 .card {
   overflow: hidden;
-  border-radius: 0.756rem;
-  /* background-color: rgb(165, 255, 255); */
-  /* background: linear-gradient(45deg, rgba(232,232,232,1) 64%, rgba(246,241,248,1) 100%, rgba(172,0,255,1) 100%); */
+  border-radius: 0.756rem;background-color: #FFDEE9;
+  background-image: linear-gradient(336deg, #FFDEE9 0%, #B5FFFC 100%);
+  
 }
 
 hr {
