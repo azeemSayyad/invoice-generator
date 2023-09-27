@@ -18,7 +18,7 @@ The "Invoice Generator" project is a web application built using React and style
 Users can create invoices by providing essential details such as invoice number, date of issue, billing and shipping information, and line items (products/services) with quantities and prices.
 The application ensures a smooth and intuitive invoice creation process.
 
-##Invoice Listing:
+###Invoice Listing:
 All created invoices are listed in a dedicated section of the application, making it easy to access and manage them.
 The list provides an overview of essential invoice details, such as invoice number, date of issue, and the total amount.
 
